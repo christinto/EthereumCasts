@@ -4,6 +4,7 @@ const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
 const web3 = new Web3(ganache.provider());
+const {interface, bytecode} = require('../compile'); //up one directory so need to ..
 
 //have to deploy a contract every time we run a test.
 // so need to check our ganache accounts.
@@ -21,23 +22,202 @@ const web3 = new Web3(ganache.provider());
 //define variables ahead of time with let so all can access it.
 //Using async await so don't need to use .then anymore. Looks cleaner
 let accounts; // accounts variable is defined.
-
+let inbox;
+// to deploy contract we need access to the bytecode.. compile.js.. interface and bytecode properties. interface is json and bytecode is raw eth
 
 //Get a list of all accounts.. .then takes a function
 //put await in front of statement that returns us our promise
 //async let's us know it's asynchronous in nature
+//assigns list of accounts to accounts variable..
 beforeEach(async () => {
     accounts = await web3.eth.getAccounts();
+//Use one of those accounts to deploy the contract
+
+//constructor function, creating an instance of a contract.
+// 2 arguments. Data is bytecode, whenever we start contract have to pass initial arguments
+//contract can use up to 1 million gas
+//Contract lets us deploy contracts or interact with deployed contracts.. we want a js object
+    inbox = await new web3.eth.Contract(JSON.parse(interface)) // just says there is a contract out there with an interface
+        .deploy({ data: bytecode, arguments: ['Hi there!'] })// tells web3 we wanna deploy a contract, creates a transaction object with arguments property to pass into the contructor function of the contract.
+        // if we had two arguments to pass in .deploy({ data: bytecode, arguments: ['Hi there!', 'ownercestmoi'] })
+        .send({ from: accounts[0], gas: '1000000' }) // send is what sends to the network, not deploy
 });
 
-    //Use one of those accounts to deploy the contract
+//Web3 with Contracts.. To interact, only need abi and address of deployed contract.
+//to create a contract, only need ABI and Bytecode.
 
+//^ We can then see our deployed contract!
+// new web3.eth.Contract(JSON.parse(interface) teaches web3 about what methods an Inbox contract has
+// .deploy tells web3 that we want to deploy a new copy of this contract.
+//.send instruct web3 to send out a transaction that creates this contract.
 
 describe('Inbox', () => {
     it('deploys a contract', () => {
-        console.log(accounts);
+        //console.log(accounts);
+        console.log(inbox);
     });
 });
+
+/*
+Inbox
+Contract {
+    currentProvider: [Getter/Setter],
+        _requestManager:
+    RequestManager {
+        provider:
+            Provider {
+            options: [Object],
+                engine: [Web3ProviderEngine],
+                manager: [GethApiDouble] },
+        providers:
+        { WebsocketProvider: [Function: WebsocketProvider],
+            HttpProvider: [Function: HttpProvider],
+            IpcProvider: [Function: IpcProvider] },
+        subscriptions: {} },
+    givenProvider: null,
+        providers:
+    { WebsocketProvider: [Function: WebsocketProvider],
+        HttpProvider: [Function: HttpProvider],
+        IpcProvider: [Function: IpcProvider] },
+    _provider:
+        Provider {
+        options: { logger: [Object] },
+        engine:
+            Web3ProviderEngine {
+            domain: null,
+                _events: [Object],
+                _eventsCount: 1,
+                _maxListeners: 100,
+                _ready: [Stoplight],
+                _pollingShouldUnref: true,
+                _pollingInterval: 4000,
+                currentBlock: [Object],
+                _providers: [Array],
+                manager: [GethApiDouble],
+                _pollIntervalId: [Timeout] },
+        manager:
+            GethApiDouble {
+            state: [StateManager],
+                options: [Object],
+                initialized: true,
+                initialization_error: null,
+                post_initialization_callbacks: [],
+                engine: [Web3ProviderEngine],
+                currentBlock: [Object] } },
+    setProvider: [Function],
+        BatchRequest: [Function: bound Batch],
+    extend:
+    { [Function: ex]
+        formatters:
+        { inputDefaultBlockNumberFormatter: [Function: inputDefaultBlockNumberFormatter],
+            inputBlockNumberFormatter: [Function: inputBlockNumberFormatter],
+            inputCallFormatter: [Function: inputCallFormatter],
+            inputTransactionFormatter: [Function: inputTransactionFormatter],
+            inputAddressFormatter: [Function: inputAddressFormatter],
+            inputPostFormatter: [Function: inputPostFormatter],
+            inputLogFormatter: [Function: inputLogFormatter],
+            inputSignFormatter: [Function: inputSignFormatter],
+            outputBigNumberFormatter: [Function: outputBigNumberFormatter],
+            outputTransactionFormatter: [Function: outputTransactionFormatter],
+            outputTransactionReceiptFormatter: [Function: outputTransactionReceiptFormatter],
+            outputBlockFormatter: [Function: outputBlockFormatter],
+            outputLogFormatter: [Function: outputLogFormatter],
+            outputPostFormatter: [Function: outputPostFormatter],
+            outputSyncingFormatter: [Function: outputSyncingFormatter] },
+        utils:
+        { _fireError: [Function: _fireError],
+            _jsonInterfaceMethodToString: [Function: _jsonInterfaceMethodToString],
+            randomHex: [Function: randomHex],
+            _: [Function],
+                BN: [Function],
+            isBN: [Function: isBN],
+            isBigNumber: [Function: isBigNumber],
+            isHex: [Function: isHex],
+            isHexStrict: [Function: isHexStrict],
+            sha3: [Function],
+                keccak256: [Function],
+            soliditySha3: [Function: soliditySha3],
+            isAddress: [Function: isAddress],
+            checkAddressChecksum: [Function: checkAddressChecksum],
+            toChecksumAddress: [Function: toChecksumAddress],
+            toHex: [Function: toHex],
+            toBN: [Function: toBN],
+            bytesToHex: [Function: bytesToHex],
+            hexToBytes: [Function: hexToBytes],
+            hexToNumberString: [Function: hexToNumberString],
+            hexToNumber: [Function: hexToNumber],
+            toDecimal: [Function: hexToNumber],
+            numberToHex: [Function: numberToHex],
+            fromDecimal: [Function: numberToHex],
+            hexToUtf8: [Function: hexToUtf8],
+            hexToString: [Function: hexToUtf8],
+            toUtf8: [Function: hexToUtf8],
+            utf8ToHex: [Function: utf8ToHex],
+            stringToHex: [Function: utf8ToHex],
+            fromUtf8: [Function: utf8ToHex],
+            hexToAscii: [Function: hexToAscii],
+            toAscii: [Function: hexToAscii],
+            asciiToHex: [Function: asciiToHex],
+            fromAscii: [Function: asciiToHex],
+            unitMap: [Object],
+                toWei: [Function: toWei],
+            fromWei: [Function: fromWei],
+            padLeft: [Function: leftPad],
+            leftPad: [Function: leftPad],
+            padRight: [Function: rightPad],
+            rightPad: [Function: rightPad],
+            toTwosComplement: [Function: toTwosComplement] },
+        Method: [Function: Method] },
+    clearSubscriptions: [Function],
+        options:
+    { address: [Getter/Setter],
+        jsonInterface: [Getter/Setter],
+        data: undefined,
+        from: undefined,
+        gasPrice: undefined,
+        gas: undefined },
+    defaultAccount: [Getter/Setter],
+        defaultBlock: [Getter/Setter],
+        methods:
+    { setMessage: [Function: bound _createTxObject],
+        '0x368b8772': [Function: bound _createTxObject],
+        'setMessage(string)': [Function: bound _createTxObject],
+        message: [Function: bound _createTxObject],
+        '0xe21f37ce': [Function: bound _createTxObject],
+        'message()': [Function: bound _createTxObject] },
+    events: { allEvents: [Function: bound ] },
+    _address: '0x11b1dC7F30a28EC79821dd3C7f915B134Cd7C384',
+        _jsonInterface:
+    [ { constant: false,
+        inputs: [Array],
+        name: 'setMessage',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function',
+        signature: '0x368b8772' },
+        { constant: true,
+            inputs: [],
+            name: 'message',
+            outputs: [Array],
+            payable: false,
+            stateMutability: 'view',
+            type: 'function',
+            signature: '0xe21f37ce' },
+        { inputs: [Array],
+            payable: false,
+            stateMutability: 'nonpayable',
+            type: 'constructor',
+            signature: 'constructor' } ] }
+    ✓ deploys a contract
+
+
+1 passing (173ms)
+*/
+
+
+
+
 
 
 //whenever someone calls park, we will return stopped..
