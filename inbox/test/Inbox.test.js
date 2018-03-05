@@ -1,3 +1,5 @@
+//from Inbox.test.js in EthereumCasts inbox example.
+
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
@@ -5,6 +7,7 @@ const web3 = new Web3(ganache.provider());
 
 //whenever someone calls park, we will return stopped..
 //basic unit test, success 28/2/18 :)
+/*
 class Car {
     park() {
     return 'stopped'
@@ -15,6 +18,7 @@ class Car {
     return 'vroom';
     }
 }
+*/
 
 //Assertion logic using the asset library from node, write tests with this library..
 // pass in string of Car, just to have something for testing report.. could be CarClass..anything we want
@@ -27,6 +31,8 @@ class Car {
 
 //variable declaration here lets u initialise car in before each. Delete const from beforeEach
     // we want to use let here instead of const because car changes each time
+
+/* The actual test. Commented out..
 let car;
 
 beforeEach(() => {
@@ -47,7 +53,7 @@ describe('Car', () => {
     });
 
 });
-
+*/
 
 
 /* Old style without before each.. instantiating new car each time not necessary anymore.
