@@ -25,6 +25,7 @@ const {interface, bytecode} = require('../compile'); //up one directory so need 
 //Using async await so don't need to use .then anymore. Looks cleaner
 let accounts; // accounts variable is defined.
 let inbox;
+//const INITIAL_STRING = 'Hi there!'
 // to deploy contract we need access to the bytecode.. compile.js.. interface and bytecode properties. interface is json and bytecode is raw eth
 
 //Get a list of all accounts.. .then takes a function
@@ -55,10 +56,25 @@ beforeEach(async () => {
 // .deploy tells web3 that we want to deploy a new copy of this contract.
 //.send instruct web3 to send out a transaction that creates this contract.
 
+//adding another test, this is a real sort of test.
+// Make sure that it has a default message"
+//2nd it statement is calling a method.. still asynchronous
 describe('Inbox', () => {
     it('deploys a contract', () => {
         //console.log(accounts);
         console.log(inbox);
+        assert.ok(inbox.options.address);
+    });
+
+    //methods are setMessage and message. 2 methods tied to the contract.
+    //We're calling message method here... well be using inbox.methods style syntax a lot
+// for transaction we would be using .send(who sending to and gas)
+//retrieves our message and asserts value of message
+// we could also write InitialMessage variable = Hi there! in case ppl change it, and pass in variable
+//eg. c
+    it('has a default message', async () => {
+        const message = await inbox.methods.message().call();
+        assert.equal(message, 'Hi there!'); // or assert.equal(message, INITIAL_STRING)
     });
 });
 
