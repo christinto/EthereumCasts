@@ -3,7 +3,9 @@
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
-const web3 = new Web3(ganache.provider());
+const provider = ganache.provider();
+const web3 = new Web3(provider);
+//const web3 = new Web3(ganache.provider());
 const {interface, bytecode} = require('../compile'); //up one directory so need to ..
 
 //have to deploy a contract every time we run a test.
@@ -41,6 +43,8 @@ beforeEach(async () => {
         .deploy({ data: bytecode, arguments: ['Hi there!'] })// tells web3 we wanna deploy a contract, creates a transaction object with arguments property to pass into the contructor function of the contract.
         // if we had two arguments to pass in .deploy({ data: bytecode, arguments: ['Hi there!', 'ownercestmoi'] })
         .send({ from: accounts[0], gas: '1000000' }) // send is what sends to the network, not deploy
+    inbox.setProvider(provider);
+
 });
 
 //Web3 with Contracts.. To interact, only need abi and address of deployed contract.
