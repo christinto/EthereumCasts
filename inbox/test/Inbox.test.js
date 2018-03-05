@@ -21,7 +21,36 @@ class Car {
 //2nd argument will be an arrow function, contains all the different it test statements. Could have one or more it statements, sring describes purpose of test.. 2nd argument another arrow function sets up actual test setup and assertion logic. Make sure that when we call park the string stopped is called. so we need to create an instance of Car. Then write an assertion that we're returning the word stopped. Use assert library, part of standard node library.. write out value produced by our code.. car.park... then assert value we think it should be.. 'stopped'
 // assert.equal tries to make sure that the code is both equal. to make mocha run in our file... run a script in package.json file..
 // in package.json... tests: mocha
-//cli terminal command... npm run test...
+//cli terminal command... npm run test...  both it statements need an instance of Car object
+// Declaring variable car inside function, scope...only available within that function..
+// eg, not available within the it statements... to deal with this we can take our variable declaration and move it outside .
+
+//variable declaration here lets u initialise car in before each. Delete const from beforeEach
+    // we want to use let here instead of const because car changes each time
+let car;
+
+beforeEach(() => {
+    //const car = new Car();
+    car = new Car();
+});
+
+describe('Car', () => {
+    it('can park', () => {
+    //const car = new Car();
+    assert.equal(car.park(), 'stopped');
+});
+
+
+    it('can drive', () => {
+    //const car = new Car();
+    assert.equal(car.drive(), 'vroom');
+    });
+
+});
+
+
+
+/* Old style without before each.. instantiating new car each time not necessary anymore.
 describe('Car', () => {
     it('can park', () => {
     const car = new Car();
@@ -36,6 +65,8 @@ describe('Car', () => {
 
 });
 //describe just groups together this group of it statements.
+// before describe statement, we can make a beforeEach before each it statement. Something general for all multiple tasks..
+
 
 
 /*3 main functions we need to be aware of...
