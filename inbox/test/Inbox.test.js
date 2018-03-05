@@ -5,6 +5,41 @@ const ganache = require('ganache-cli');
 const Web3 = require('web3');
 const web3 = new Web3(ganache.provider());
 
+//have to deploy a contract every time we run a test.
+// so need to check our ganache accounts.
+//Web3 is asynchronous so always returns promises
+
+//we can refactor this to async await..
+
+/*beforeEach(() => {
+    //Get a list of all accounts.. .then takes a function
+    web3.eth.getAccounts().then(fetchedAccounts => {
+            console.log(fetchedAccounts);
+    });
+*/
+
+//define variables ahead of time with let so all can access it.
+//Using async await so don't need to use .then anymore. Looks cleaner
+let accounts; // accounts variable is defined.
+
+
+//Get a list of all accounts.. .then takes a function
+//put await in front of statement that returns us our promise
+//async let's us know it's asynchronous in nature
+beforeEach(async () => {
+    accounts = await web3.eth.getAccounts();
+});
+
+    //Use one of those accounts to deploy the contract
+
+
+describe('Inbox', () => {
+    it('deploys a contract', () => {
+        console.log(accounts);
+    });
+});
+
+
 //whenever someone calls park, we will return stopped..
 //basic unit test, success 28/2/18 :)
 /*
