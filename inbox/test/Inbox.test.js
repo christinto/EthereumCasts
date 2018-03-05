@@ -71,10 +71,18 @@ describe('Inbox', () => {
 // for transaction we would be using .send(who sending to and gas)
 //retrieves our message and asserts value of message
 // we could also write InitialMessage variable = Hi there! in case ppl change it, and pass in variable
-//eg. c
+//Test is getting a default value. Method is the ability to change or retrieve data from the contract.
     it('has a default message', async () => {
         const message = await inbox.methods.message().call();
         assert.equal(message, 'Hi there!'); // or assert.equal(message, INITIAL_STRING)
+    });
+
+    //send transaction.. who is paying for it.. ganache cli created accounts, we can simply say from: accounts[0]
+    //tx hash we get back is like receipt of the transaction.
+    it('can change the message', async () => {
+        await inbox.methods.setMessage('bye').send( { from: accounts[0]})
+        const message = await inbox.methods.message().call(); //retrieves message changed..
+        assert.equal(message, 'bye');
     });
 });
 
