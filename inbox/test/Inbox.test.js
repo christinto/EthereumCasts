@@ -169,8 +169,8 @@ Contract {
             toTwosComplement: [Function: toTwosComplement] },
         Method: [Function: Method] },
     clearSubscriptions: [Function],
-        options:
-    { address: [Getter/Setter],
+        options:   //options.address is where contract now sits at.
+    { address: [Getter/Setter],  // will be where contract sits.. can write tests to make sure it exists
         jsonInterface: [Getter/Setter],
         data: undefined,
         from: undefined,
@@ -178,7 +178,7 @@ Contract {
         gas: undefined },
     defaultAccount: [Getter/Setter],
         defaultBlock: [Getter/Setter],
-        methods:
+        methods:   //Most important property.. can call these.. same as calling setMessage button on remix and message button too.
     { setMessage: [Function: bound _createTxObject],
         '0x368b8772': [Function: bound _createTxObject],
         'setMessage(string)': [Function: bound _createTxObject],
