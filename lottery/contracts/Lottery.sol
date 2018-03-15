@@ -1,9 +1,11 @@
 pragma solidity ^0.4.17;
 
 contract Lottery {
+    //type, visibility and variable name
     address public manager;
     address[] public players;
 
+    //assigns whoever deployed the contract and assigns the manager variable
     function Lottery() public {
         manager = msg.sender;
     }
