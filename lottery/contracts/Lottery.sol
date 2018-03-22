@@ -6,7 +6,8 @@ contract Lottery {
     address public manager;
     address[] public players;
 
-    //assigns whoever deployed the contract and assigns the manager variable
+    //assigns whoever deploys the contract and assigns the manager variable
+    //global variable..means we don't have to do any declaration for msg .. magically available
     function Lottery() public {
         manager = msg.sender;
     }
