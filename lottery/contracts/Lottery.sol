@@ -1,7 +1,8 @@
 pragma solidity ^0.4.17;
 
 contract Lottery {
-    //type, visibility and variable name
+    //order....type, visibility and variable name
+    //public or private specifies to devs whether they can easily access the variable
     address public manager;
     address[] public players;
 
