@@ -31,16 +31,25 @@ contract Lottery {
         return uint(keccak256(block.difficulty, now, players));
     }
 
+    //send money to the address
     function pickWinner() public restricted {
+        //require(msg.sender == manager)
         uint index = random() % players.length;
-        players[index].transfer(this.balance);
+        players[index].transfer(this.balance);  //players is an address hash.. 0x3434434 etc
+        //addresses have methods tied to them, not just strings, 
+        //we can send money to that address by calling .transfer
         players = new address[](0);
+        //new is like a reset so overwriting the players = new address[]
     }
 
+    //this modifier helps us stop repeating ourselves and reduces code we have to write..
+    //cld have called it anything, not just restricted
+    // _ would be the whole pickWinner function.. or any of the functions with restricted
     modifier restricted() {
         require(msg.sender == manager);
         _;
     }
+
 
     function getPlayers() public view returns (address[]) {
         return players;
