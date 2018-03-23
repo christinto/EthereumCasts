@@ -24,6 +24,9 @@ contract Lottery {
         players.push(msg.sender);
     }
 
+    // random number generator. No button or ability to call this as it's private
+    //can also use sha3 is an instance of keccak256 instead of keccak256 (particular algorithm) same thing. 
+    //keccak256 is a global variable.. passing in array of players, simply named as players
     function random() private view returns (uint) {
         return uint(keccak256(block.difficulty, now, players));
     }
