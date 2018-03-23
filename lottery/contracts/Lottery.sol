@@ -14,6 +14,10 @@ contract Lottery {
     }
 
     //we expect someone when they call this function to send along some ether.
+    //require is used for validation.. if it was false then the entire function stops running
+    //rather than writing 100000000 for wei etc.. can specify ether helper
+    // in remix or mist add ur ether value to the Value textbox..
+    //require failures don't really give messages why it failed. Be aware..
     function enter() public payable {
         require(msg.value > .01 ether);
 
