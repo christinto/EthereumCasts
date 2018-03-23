@@ -12,6 +12,7 @@ contract Lottery {
         manager = msg.sender;
     }
 
+    //we expect someone when they call this function to send along some ether.
     function enter() public payable {
         require(msg.value > .01 ether);
 
