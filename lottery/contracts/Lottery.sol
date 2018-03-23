@@ -4,6 +4,7 @@ contract Lottery {
     //order....type, visibility and variable name
     //public or private specifies to devs whether they can easily access the variable
     address public manager;
+    // cause it's public can only access one array element at a time..
     address[] public players;
 
     //assigns whoever deploys the contract and assigns the manager variable
